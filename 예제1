@@ -33,11 +33,11 @@ np.random.seed(5)
 # 1. 데이터 준비하기
 dataset = numpy.loadtxt("./breast_cancer.csv", delimiter=",")
 
-# 2. 데이터셋 생성하기 첫번째속성은 id로 제외
-x_train = dataset[:650,1:10]
-y_train = dataset[:650,10]
-x_test = dataset[650:,1:10]
-y_test = dataset[650:,10]
+# 2. 데이터셋 생성하기 
+x_train = dataset[:650,:9]
+y_train = dataset[:650,9]
+x_test = dataset[650:,:9]
+y_test = dataset[650:,9]
 
 # 3. 모델 구성하기
 model = Sequential()
