@@ -1,0 +1,84 @@
+# 유방암 판정하기 
+# 사용데이터셋: Breast Cancer Wisconsin (Original) Data Set (1992)
+# 공부한 사이트 : https://tykimos.github.io/2017/02/04/MLP_Getting_Started/
+# 2018.3.8
+
+# Number of Attributes : 9 (id제외)
+# Number of Instances : 699
+
+Attribute Information:
+
+1. Clump Thickness: 1 - 10 
+2. Uniformity of Cell Size: 1 - 10 
+3. Uniformity of Cell Shape: 1 - 10 
+4. Marginal Adhesion: 1 - 10 
+5. Single Epithelial Cell Size: 1 - 10 
+6. Bare Nuclei: 1 - 10 
+7. Bland Chromatin: 1 - 10 
+8. Normal Nucleoli: 1 - 10 
+9. Mitoses: 1 - 10 
+10. Class: (0 for benign, 1 for malignant)
+
+
+
+
+# 0. 사용할 패키지 불러오기
+import numpy as np
+from keras.models import Sequential
+from keras.layers import Dense
+
+# 랜덤시드 고정시키기
+np.random.seed(5)
+
+# 1. 데이터 준비하기
+dataset = numpy.loadtxt("./breast_cancer.csv", delimiter=",")
+
+# 2. 데이터셋 생성하기 첫번째속성은 id로 제외
+x_train = dataset[:650,1:10]
+y_train = dataset[:650,10]
+x_test = dataset[650:,1:10]
+y_test = dataset[650:,10]
+
+# 3. 모델 구성하기
+model = Sequential()
+model.add(Dense(14, input_dim=9, activation='relu'))
+model.add(Dense(10, activation='relu'))
+model.add(Dense(1, activation='sigmoid'))
+
+# 4. 모델 학습과정 설정하기
+model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
+
+# 5. 모델 학습시키기
+model.fit(x_train, y_train, epochs=1500, batch_size=64)
+
+# 6. 모델 평가하기
+scores = model.evaluate(x_test, y_test)
+print("%s: %.2f%%" %(model.metrics_names[1], scores[1]*100))
+
+
+
+# 결과
+Epoch 1/1500
+650/650 [==============================] - 1s 782us/step - loss: 0.6871 - acc: 0.3877
+Epoch 2/1500
+650/650 [==============================] - 0s 71us/step - loss: 0.6243 - acc: 0.5277
+Epoch 3/1500
+650/650 [==============================] - 0s 68us/step - loss: 0.5749 - acc: 0.7554
+Epoch 4/1500
+650/650 [==============================] - 0s 72us/step - loss: 0.5336 - acc: 0.8631
+Epoch 5/1500
+650/650 [==============================] - 0s 69us/step - loss: 0.4989 - acc: 0.8708
+Epoch 6/1500
+'
+'
+'
+Epoch 1498/1500
+650/650 [==============================] - 0s 60us/step - loss: 3.8471e-04 - acc: 1.0000
+Epoch 1499/1500
+650/650 [==============================] - 0s 59us/step - loss: 3.8025e-04 - acc: 1.0000
+Epoch 1500/1500
+650/650 [==============================] - 0s 59us/step - loss: 3.5912e-04 - acc: 1.0000
+
+#평가결과
+49/49 [==============================] - 0s 1ms/step
+acc: 95.92%
