@@ -1,0 +1,39 @@
+#출처: 트리모형의 끝판왕 xgboost 설치하기
+https://blog.naver.com/cloudingdata/221002888481
+
+1. mingw64 다운로드
+https://sourceforge.net/projects/mingw-w64/files/latest/download
+
+2. mingw32 설치
+옵션 Version 5.3 // Architecture x86_64 로 설치
+
+3. 환경변수 설정
+시스템 변수에 있는 path에 맨 뒤에 아래 경로 붙여넣기
+C:\Program Files\mingw-w64\x86_64-5.3.0-posix-seh-rt_v4-rev0\mingw64\bin\
+
+4. git설치(git for windows)
+https://git-for-windows.github.io/
+
+5. git bash 설정(git bash 실행 후 진행)(아래 코드 한줄 씩 복붙 추천!)
+git clone --recursive https://github.com/dmlc/xgboost
+cd xgboost
+git submodule init
+git submodule update
+alias make='mingw32-make'
+cd dmlc-core
+	
+dmlc/xgboost
+xgboost - Scalable, Portable and Distributed Gradient Boosting (GBDT, GBRT or GBM) Library, for Python, R, Java, Scala, C++ and more. Runs on single machine, Hadoop, Spark, Flink and DataFlow
+github.com
+
+make -j4
+cd ../rabit
+make lib/librabit_empty.a -j4
+cd ..
+cp make/mingw64.mk config.mk
+make -j4
+cd python-package
+python setup.py install
+
+6. 완료 후 import xgboost as xgb 하고 사용 !!
+[출처] Anaconda(Python 3.5) 가 설치된 환경에서의 XGBOOST 설치안내|작성자 구그데
